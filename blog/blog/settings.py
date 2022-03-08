@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #users子应用中的注册用户模块应用
     'users.apps.UsersConfig',
+    'home.apps.HomeConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -108,10 +110,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
+#修改语言和时区
+LANGUAGE_CODE ='zh-Hans' # 'en-us'
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'#'UTC'
 
 USE_I18N = True
 
@@ -139,6 +141,7 @@ CACHES = {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     },
+
     "session": { # session
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/1",
@@ -147,6 +150,7 @@ CACHES = {
         }
     },
 }
+# 将session信息由默认的系统数据库改为redis数据库
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "session"
 # 日志配置
@@ -190,5 +194,14 @@ LOGGING = {
         },
     }
 }
-# 替换系统的User来使用我们自己定义的User 子应用名.模型类型
-AUTH_USER_MODEL ='users.User'
+# # 替换系统的User来使用我们自己定义的User 子应用名.模型类型
+AUTH_USER_MODEL = 'users.User'
+
+# 修改系统的默认跳转
+LOGIN_URL = '/login/'
+#
+# 在setting中设置上传的图片头像保存在media文件夹
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# 图片的统一路由
+MEDIA_URL = '/media/'
